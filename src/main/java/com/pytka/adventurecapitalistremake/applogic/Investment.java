@@ -7,7 +7,7 @@ import java.util.concurrent.FutureTask;
 
 
 @Getter
-public class GameEntity{
+public class Investment {
 
     private final String NAME;
 
@@ -27,7 +27,7 @@ public class GameEntity{
         this.moneyPerRound = this.MONEY_PER_ITEM * this.itemsCount * this.multiplier;
     }
 
-    public GameEntity(String NAME, long itemsCount, int waitTime, double moneyPerItem, boolean isBought) {
+    public Investment(String NAME, long itemsCount, int waitTime, double moneyPerItem, boolean isBought) {
         this.NAME = NAME;
         this.itemsCount = itemsCount;
         this.waitTime = waitTime;

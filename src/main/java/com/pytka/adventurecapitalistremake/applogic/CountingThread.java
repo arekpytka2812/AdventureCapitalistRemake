@@ -4,21 +4,21 @@ import java.util.List;
 
 public class CountingThread implements Runnable{
 
-    private List<GameEntity> entities;
+    private List<Investment> investments;
 
-    private Integer[] entitiesWaitCounter;
+    private Integer[] investmentsWaitCounter;
 
     private final SessionManager sessionManager;
 
-    public CountingThread(List<GameEntity> entities){
-        this.entities = entities;
+    public CountingThread(List<Investment> investments){
+        this.investments = investments;
 
         this.sessionManager = SessionManager.getInstance();
 
-        this.entitiesWaitCounter = new Integer[entities.size()];
+        this.investmentsWaitCounter = new Integer[investments.size()];
 
-        for(int i = 0; i < entitiesWaitCounter.length; i++){
-            entitiesWaitCounter[i] = entities.get(i).getWaitTime();
+        for(int i = 0; i < investmentsWaitCounter.length; i++){
+            investmentsWaitCounter[i] = investments.get(i).getWaitTime();
         }
     }
 
@@ -33,9 +33,9 @@ public class CountingThread implements Runnable{
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0; i < investments.size(); i++) {
 
-                var entity = entities.get(i);
+                var entity = investments.get(i);
 
                 if(!entity.isBought()){
                     continue;
@@ -45,17 +45,18 @@ public class CountingThread implements Runnable{
                     continue;
                 }
 
-                if(entitiesWaitCounter[i] > 0){
-                    entitiesWaitCounter[i] -= 1;
+                if(investmentsWaitCounter[i] > 0){
+                    investmentsWaitCounter[i] -= 1;
                     continue;
                 }
 
-                entitiesWaitCounter[i] = entity.getWaitTime();
+                investmentsWaitCounter[i] = entity.getWaitTime();
 
                 entity.setIsRunning(false);
 
                 sessionManager.addPlayerMoney(entity.getMoneyPerRound());
 
+                //debug print
                 System.out.println("Money: " + sessionManager.getPlayerMoney());
 
             }

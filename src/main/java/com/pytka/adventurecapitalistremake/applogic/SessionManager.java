@@ -16,7 +16,7 @@ public class SessionManager {
 
     private FileParser fileParser = null;
 
-    private List<GameEntity> entities;
+    private List<Investment> entities;
 
     private SessionManager(FileParser fileParser){
         this.fileParser = fileParser;
@@ -45,7 +45,7 @@ public class SessionManager {
 
         //TODO: load game info from file and create game
 
-        entities.add(new GameEntity("test1", 1, 3, 0.5, true));
+        entities.add(new Investment("test1", 1, 3, 0.5, true));
        // entities.add(new GameEntity("test2", 10, 6, 500, true));
         playerMoney = 0;
 
@@ -63,7 +63,7 @@ public class SessionManager {
         isSessionOpened = false;
     }
 
-    public List<GameEntity> getEntities(){
+    public List<Investment> getEntities(){
         return entities;
     }
 
