@@ -41,7 +41,9 @@ public class CountingThread implements Runnable{
                     continue;
                 }
 
-                //TODO: check if entity has been run and then decrease its counter
+                if(!entity.isRunning()){
+                    continue;
+                }
 
                 if(entitiesWaitCounter[i] > 0){
                     entitiesWaitCounter[i] -= 1;
@@ -50,7 +52,7 @@ public class CountingThread implements Runnable{
 
                 entitiesWaitCounter[i] = entity.getWaitTime();
 
-                //TODO: set entity isRunning to false
+                entity.setIsRunning(false);
 
                 sessionManager.addPlayerMoney(entity.getMoneyPerRound());
 

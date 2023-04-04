@@ -20,9 +20,6 @@ public class EntityThread implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            entity.addItems(10);
-            System.out.println("Added items! New money per round: " + entity.getMoneyPerRound());
         }
     }
 

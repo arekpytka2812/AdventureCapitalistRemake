@@ -46,7 +46,7 @@ public class SessionManager {
         //TODO: load game info from file and create game
 
         entities.add(new GameEntity("test1", 1, 3, 0.5, true));
-        entities.add(new GameEntity("test2", 10, 6, 500, true));
+       // entities.add(new GameEntity("test2", 10, 6, 500, true));
         playerMoney = 0;
 
         isSessionOpened = true;
