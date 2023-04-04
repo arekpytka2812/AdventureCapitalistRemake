@@ -1,5 +1,7 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
+
+
 public class EntityThread implements Runnable{
 
     private GameEntity entity = null;
@@ -10,23 +12,17 @@ public class EntityThread implements Runnable{
 
     @Override
     public void run(){
+
         while(true){
-            System.out.println("Money: " + entity.getMoneyPerRound());
 
             try {
-                System.out.println("start wait");
-
-                var start = System.currentTimeMillis();
-
-                Thread.sleep(entity.getWaitTime());
-
-                var stop = System.currentTimeMillis();
-
-                var time  = (stop - start) / 1000;
-                System.out.println("time: " + time);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            entity.addItems(10);
+            System.out.println("Added items! New money per round: " + entity.getMoneyPerRound());
         }
     }
 
