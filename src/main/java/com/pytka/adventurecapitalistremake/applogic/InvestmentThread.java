@@ -6,13 +6,12 @@ import com.pytka.adventurecapitalistremake.utils.Task;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
 
 public class InvestmentThread implements Runnable{
 
-    private Investment investment;
+    private final Investment investment;
 
-    Queue<Task> taskQueue;
+    private final Queue<Task> taskQueue;
 
     public InvestmentThread(Investment investment){
         this.investment = investment;
@@ -20,7 +19,10 @@ public class InvestmentThread implements Runnable{
     }
 
     public void addTask(Task task){
-        taskQueue.add(task);
+
+        synchronized (taskQueue){
+            taskQueue.add(task);
+        }
     }
 
     @Override
@@ -28,18 +30,19 @@ public class InvestmentThread implements Runnable{
 
         while(true){
 
-            //TODO: check and execute methods from taskQueue
+            synchronized (taskQueue){
 
-            if(taskQueue.isEmpty()){
-                continue;
-            }
+                if(taskQueue.isEmpty()){
+                    continue;
+                }
 
-            var top = taskQueue.poll();
+                Task top = taskQueue.poll();
 
-            try {
-                System.out.println(top.getMethod().invoke(investment, top.getArgs()));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                try {
+                    top.getMethod().invoke(investment, top.getArgs());
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

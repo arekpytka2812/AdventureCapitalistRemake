@@ -25,8 +25,6 @@ public class HelloController {
         catch (NoSuchMethodException e){
             e.printStackTrace();
         }
-
-        System.out.println("Investment Running");
     }
 
     @FXML
@@ -37,7 +35,6 @@ public class HelloController {
         catch (NoSuchMethodException e){
             e.printStackTrace();
         }
-        System.out.println("Items Added");
     }
 
 
