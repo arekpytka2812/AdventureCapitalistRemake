@@ -1,5 +1,6 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
+import com.pytka.adventurecapitalistremake.utils.FileParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,22 +9,40 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+
+    public static SessionManager SESSION;
+
     @Override
     public void start(Stage stage) throws IOException {
 
-        GameEntity entity = new GameEntity("Test1", 1, 3000, 0.0, 0.5);
-        EntityThread entityThread = new EntityThread(entity);
+        FileParser fileParser = new FileParser();
 
-        Thread thread = new Thread(entityThread);
+        SessionManager.setupManager(fileParser);
+        SESSION = SessionManager.getInstance();
+        SESSION.openSession();
 
-        thread.start();
+        var entitiesList = SESSION.getEntities();
+
+       // EntityThread entityThread = new EntityThread(entitiesList.get(0));
+
+       // Thread thread = new Thread(entityThread);
+
+        CountingThread countingThread = new CountingThread(entitiesList);
+
+        Thread count = new Thread(countingThread);
 
 
-//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-//        stage.setTitle("Hello!");
-//        stage.setScene(scene);
-//        stage.show();
+        //thread.start();
+        count.start();
+
+
+
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("scenes/hello-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
