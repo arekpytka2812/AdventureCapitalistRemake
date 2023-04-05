@@ -2,8 +2,11 @@ package com.pytka.adventurecapitalistremake.applogic;
 
 
 import com.pytka.adventurecapitalistremake.utils.GameInfo;
+import com.pytka.adventurecapitalistremake.utils.Task;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game {
@@ -12,6 +15,8 @@ public class Game {
     private static GameInfo gameInfo;
 
     private static List<Thread> mainThreads;
+    private static HashMap<String, InvestmentThread> investmentThreads;
+    private static CountingThread countingThread;
 
     private Game() {
         SessionManager.openSession();
@@ -30,21 +35,23 @@ public class Game {
 
     public void run() {
 
-        CountingThread countingThread = new CountingThread(gameInfo.getInvestments());
-        List<InvestmentThread> investmentThreads = new ArrayList<>();
+        countingThread = new CountingThread(gameInfo.getInvestments());
+        investmentThreads = new HashMap<>();
 
         for(var investment : gameInfo.getInvestments()){
-            investmentThreads.add(new InvestmentThread(investment));
+            investmentThreads.put(investment.getNAME(), new InvestmentThread(investment));
         }
 
         // counting thread
         mainThreads.add(new Thread(countingThread));
         mainThreads.get(0).start();
 
-        // investment threads
-        for(var investmentThread : investmentThreads){
+        var mapKeySet = investmentThreads.keySet();
 
-            mainThreads.add(new Thread(investmentThread));
+        // investment threads
+        for(var key : mapKeySet){
+
+            mainThreads.add(new Thread(investmentThreads.get(key)));
 
             var lastIndex = mainThreads.size() - 1;
             mainThreads.get(lastIndex).start();
@@ -54,6 +61,10 @@ public class Game {
 
     public static void addPlayerMoney(double money){
         gameInfo.setPlayerMoney(gameInfo.getPlayerMoney() + money);
+    }
+
+    public static void addTask(String investmentName, Task task){
+        investmentThreads.get(investmentName).addTask(task);
     }
 
     public static double getMoney(){
