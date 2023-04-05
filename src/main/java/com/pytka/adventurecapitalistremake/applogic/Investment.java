@@ -1,9 +1,7 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
+import com.pytka.adventurecapitalistremake.utils.ForDebugPurposes;
 import lombok.Getter;
-import java.util.LinkedList;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 
 @Getter
@@ -15,36 +13,31 @@ public class Investment {
     private int waitTime;
     private double moneyPerRound;
 
-    private double multiplier = 1.0;
+    private double multiplier;
     private final double MONEY_PER_ITEM;
 
     private boolean isRunning;
     private boolean isBought;
-
-  //  private final Queue<> TASK_QUEUE;
+    private boolean hasManager;
 
     private void calculateMoney(){
         this.moneyPerRound = this.MONEY_PER_ITEM * this.itemsCount * this.multiplier;
     }
 
-    public Investment(String NAME, long itemsCount, int waitTime, double moneyPerItem, boolean isBought) {
+    public Investment(String NAME, long itemsCount, int waitTime, double multiplier, double moneyPerItem, boolean isBought, boolean hasManager) {
         this.NAME = NAME;
         this.itemsCount = itemsCount;
         this.waitTime = waitTime;
+        this.multiplier = multiplier;
         this.MONEY_PER_ITEM = moneyPerItem;
+        this.hasManager = hasManager;
 
         this.isRunning = false;
 
         this.isBought = isBought;
 
         calculateMoney();
-
-      //  this.TASK_QUEUE = new LinkedList<>();
     }
-
-   // public void pushTask(){
-   //     this.TASK_QUEUE.add();
-  //  }
 
     public void addItems(int itemsCount){
         this.itemsCount += itemsCount;
@@ -74,4 +67,22 @@ public class Investment {
         this.isRunning = isRunning;
     }
 
+    public boolean hasManager(){
+        return hasManager;
+    }
+
+    @ForDebugPurposes
+    @Override
+    public String toString() {
+        return "Investment{" +
+                "NAME='" + NAME + '\'' +
+                ", itemsCount=" + itemsCount +
+                ", waitTime=" + waitTime +
+                ", moneyPerRound=" + moneyPerRound +
+                ", multiplier=" + multiplier +
+                ", MONEY_PER_ITEM=" + MONEY_PER_ITEM +
+                ", isBought=" + isBought +
+                ", hasManager=" + hasManager +
+                '}';
+    }
 }

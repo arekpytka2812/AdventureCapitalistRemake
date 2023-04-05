@@ -140,3 +140,5 @@ $RECYCLE.BIN/
 .idea/
 
 target/
+
+bin/

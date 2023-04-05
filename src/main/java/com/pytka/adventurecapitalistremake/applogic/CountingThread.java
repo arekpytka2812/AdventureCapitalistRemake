@@ -1,5 +1,7 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
+import com.pytka.adventurecapitalistremake.utils.ForDebugPurposes;
+
 import java.util.List;
 
 public class CountingThread implements Runnable{
@@ -56,7 +58,7 @@ public class CountingThread implements Runnable{
 
                 sessionManager.addPlayerMoney(entity.getMoneyPerRound());
 
-                //debug print
+                // @ForDebugPurposes
                 System.out.println("Money: " + sessionManager.getPlayerMoney());
 
             }

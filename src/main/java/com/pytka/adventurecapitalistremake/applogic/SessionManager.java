@@ -1,7 +1,10 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
 import com.pytka.adventurecapitalistremake.utils.FileParser;
+import com.pytka.adventurecapitalistremake.utils.ForDebugPurposes;
+import com.pytka.adventurecapitalistremake.utils.GameInfo;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,30 +12,21 @@ import java.util.List;
 public class SessionManager {
 
     private static SessionManager sessionManager = null;
-    private static boolean isManagerSet = false;
     private static boolean isSessionOpened = false;
 
     private static double playerMoney;
 
-    private FileParser fileParser = null;
+    private GameInfo gameInfo;
 
-    private List<Investment> entities;
+    private List<Investment> investments;
 
-    private SessionManager(FileParser fileParser){
-        this.fileParser = fileParser;
-    }
+    private SessionManager(){}
 
     public static SessionManager getInstance(){
-        return sessionManager;
-    }
-
-    public static void setupManager(FileParser fileParser){
-        if(isManagerSet){
-            return;
+        if(sessionManager == null){
+            sessionManager = new SessionManager();
         }
-
-        sessionManager = new SessionManager(fileParser);
-        isManagerSet = true;
+        return sessionManager;
     }
 
     public void openSession(){
@@ -41,13 +35,20 @@ public class SessionManager {
             return;
         }
 
-        entities = new ArrayList<>();
+        try{
+            gameInfo = FileParser.readGameInfo();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
 
-        //TODO: load game info from file and create game
+            return;
+        }
 
-        entities.add(new Investment("test1", 1, 3, 0.5, true));
-       // entities.add(new GameEntity("test2", 10, 6, 500, true));
-        playerMoney = 0;
+        investments = gameInfo.getInvestments();
+        playerMoney = gameInfo.getPlayerMoney();
+
+        printGameInfo();
 
         isSessionOpened = true;
     }
@@ -63,17 +64,23 @@ public class SessionManager {
         isSessionOpened = false;
     }
 
-    public List<Investment> getEntities(){
-        return entities;
+    public List<Investment> getInvestments(){
+        return investments;
     }
 
     public double getPlayerMoney(){
         return playerMoney;
     }
 
-
     public void addPlayerMoney(double money){
         playerMoney += money;
+    }
+
+    @ForDebugPurposes
+    private void printGameInfo() {
+        for (var investment : investments) {
+            System.out.println(investment.toString());
+        }
     }
 
 }

@@ -16,14 +16,14 @@ public class HelloController {
 
     @FXML
     private void ent1ButtonRunPressed(ActionEvent event) {
-        Main.SESSION.getEntities().get(0).setIsRunning(true);
+        //Main.SESSION.getEntities().get(0).setIsRunning(true);
         //debug print
         System.out.println("Entity Running");
     }
 
     @FXML
     private void ent1ButtonBuyPressed(ActionEvent event){
-        Main.SESSION.getEntities().get(0).addItems(10);
+        //Main.SESSION.getEntities().get(0).addItems(10);
         //debug print
         System.out.println("Items Added");
     }

@@ -1,6 +1,4 @@
 package com.pytka.adventurecapitalistremake.utils;
 
-public class FileReader {
-
-
+public @interface ForDebugPurposes {
 }
