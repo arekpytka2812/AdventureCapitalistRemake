@@ -5,31 +5,17 @@ import com.pytka.adventurecapitalistremake.utils.ForDebugPurposes;
 import com.pytka.adventurecapitalistremake.utils.GameInfo;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SessionManager {
 
-    private static SessionManager sessionManager = null;
     private static boolean isSessionOpened = false;
+    private static GameInfo gameInfo = null;
 
-    private static double playerMoney;
-
-    private GameInfo gameInfo;
-
-    private List<Investment> investments;
-
-    private SessionManager(){}
-
-    public static SessionManager getInstance(){
-        if(sessionManager == null){
-            sessionManager = new SessionManager();
-        }
-        return sessionManager;
-    }
-
-    public void openSession(){
+    public static void openSession(){
 
         if(isSessionOpened){
             return;
@@ -41,14 +27,8 @@ public class SessionManager {
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-
             return;
         }
-
-        investments = gameInfo.getInvestments();
-        playerMoney = gameInfo.getPlayerMoney();
-
-        printGameInfo();
 
         isSessionOpened = true;
     }
@@ -59,28 +39,20 @@ public class SessionManager {
             return;
         }
 
-        //TODO: write game status and info, close file stream
+        try {
+            FileParser.writeGameInfo(gameInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         isSessionOpened = false;
     }
 
-    public List<Investment> getInvestments(){
-        return investments;
+    public void setGameInfo(GameInfo gameInfo_){
+        gameInfo = gameInfo_;
     }
 
-    public double getPlayerMoney(){
-        return playerMoney;
+    public static GameInfo getGameInfo(){
+        return gameInfo;
     }
-
-    public void addPlayerMoney(double money){
-        playerMoney += money;
-    }
-
-    @ForDebugPurposes
-    private void printGameInfo() {
-        for (var investment : investments) {
-            System.out.println(investment.toString());
-        }
-    }
-
 }

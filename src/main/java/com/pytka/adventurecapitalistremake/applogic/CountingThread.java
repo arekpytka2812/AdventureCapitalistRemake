@@ -1,22 +1,17 @@
 package com.pytka.adventurecapitalistremake.applogic;
 
 import com.pytka.adventurecapitalistremake.utils.ForDebugPurposes;
+import com.pytka.adventurecapitalistremake.utils.GameInfo;
 
 import java.util.List;
 
 public class CountingThread implements Runnable{
 
-    private List<Investment> investments;
-
-    private Integer[] investmentsWaitCounter;
-
-    private final SessionManager sessionManager;
+    private final List<Investment> investments;
+    private final Integer[] investmentsWaitCounter;
 
     public CountingThread(List<Investment> investments){
         this.investments = investments;
-
-        this.sessionManager = SessionManager.getInstance();
-
         this.investmentsWaitCounter = new Integer[investments.size()];
 
         for(int i = 0; i < investmentsWaitCounter.length; i++){
@@ -37,13 +32,13 @@ public class CountingThread implements Runnable{
 
             for (int i = 0; i < investments.size(); i++) {
 
-                var entity = investments.get(i);
+                var investment = investments.get(i);
 
-                if(!entity.isBought()){
+                if(!investment.isBought()){
                     continue;
                 }
 
-                if(!entity.isRunning()){
+                if(!investment.isRunning()){
                     continue;
                 }
 
@@ -52,15 +47,18 @@ public class CountingThread implements Runnable{
                     continue;
                 }
 
-                investmentsWaitCounter[i] = entity.getWaitTime();
+                investmentsWaitCounter[i] = investment.getWaitTime();
 
-                entity.setIsRunning(false);
+                Game.addPlayerMoney(investment.getMoneyPerRound());
 
-                sessionManager.addPlayerMoney(entity.getMoneyPerRound());
+                investment.setIsRunning(false);
+
+                if(investment.hasManager()){
+                    investment.setIsRunning(true);
+                }
 
                 // @ForDebugPurposes
-                System.out.println("Money: " + sessionManager.getPlayerMoney());
-
+                System.out.println("Investment: " + investment.getNAME() + " added money: " + investment.getMoneyPerRound() + ", now money: " + Game.getMoney());
             }
 
         }

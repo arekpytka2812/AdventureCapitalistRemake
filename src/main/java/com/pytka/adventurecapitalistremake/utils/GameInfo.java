@@ -15,11 +15,17 @@ import java.util.List;
 public class GameInfo {
 
     private List<Investment> investments;
-    private double playerMoney;
+    private double playerMoney = 0.0;
     private LocalDateTime lastActivity;
 
     public GameInfo(){
         investments = new ArrayList<>();
+    }
+
+    public GameInfo(List<Investment> investments, double playerMoney, LocalDateTime lastActivity) {
+        this.investments = investments;
+        this.playerMoney = playerMoney;
+        this.lastActivity = lastActivity;
     }
 
     public void addInvestment(Investment investment){

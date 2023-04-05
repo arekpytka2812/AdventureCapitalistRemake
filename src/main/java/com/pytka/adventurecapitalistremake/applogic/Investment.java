@@ -32,7 +32,7 @@ public class Investment {
         this.MONEY_PER_ITEM = moneyPerItem;
         this.hasManager = hasManager;
 
-        this.isRunning = false;
+        this.isRunning = this.hasManager;
 
         this.isBought = isBought;
 

@@ -1,15 +1,14 @@
 package com.pytka.adventurecapitalistremake.utils;
 
 import com.pytka.adventurecapitalistremake.applogic.Investment;
-import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.time.LocalDate;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-@Setter
 public class FileParser {
 
     private static GameInfo gameInfo;
@@ -27,7 +26,7 @@ public class FileParser {
         //then change scanning method
 
         // reading investments
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < 2; i++){
 
             String investment = fileScanner.nextLine();
 
@@ -45,22 +44,45 @@ public class FileParser {
 
         // reading players money
         double playerMoney = Double.parseDouble(fileScanner.nextLine());
+        gameInfo.setPlayerMoney(playerMoney);
 
         // reading last activity
-        String lastActivityString = fileScanner.nextLine();
-        LocalDateTime lastActivity = LocalDateTime.parse(lastActivityString);
+        if(fileScanner.hasNextLine()){
+            String lastActivityString = fileScanner.nextLine();
+            LocalDateTime lastActivity = LocalDateTime.parse(lastActivityString);
+            gameInfo.setLastActivity(lastActivity);
+            gameInfo.recalculateMoney();
+        }
 
-        gameInfo.setPlayerMoney(playerMoney);
-        gameInfo.setLastActivity(lastActivity);
-
-        gameInfo.recalculateMoney();
+        fileScanner.close();
 
         return gameInfo;
-
     }
 
-    public static void writeGameInfo(){
+    public static void writeGameInfo(GameInfo gameInfo) throws IOException {
 
+        var fileWriter = new FileWriter(gameInfoFile);
+
+        var investments = gameInfo.getInvestments();
+        var money = gameInfo.getPlayerMoney();
+        var now = LocalDateTime.now();
+
+        for(var investment : investments){
+            fileWriter.write(
+                    investment.getNAME() + ";"
+                    + investment.getItemsCount() + ";"
+                    + investment.getWaitTime() + ";"
+                    + investment.getMultiplier() + ";"
+                    + investment.getMONEY_PER_ITEM() + ";"
+                    + investment.isBought() + ";"
+                    + investment.isHasManager() + "\n"
+                    );
+        }
+
+        fileWriter.write(money + "\n");
+        fileWriter.write(now.toString());
+
+        fileWriter.close();
     }
 
 
