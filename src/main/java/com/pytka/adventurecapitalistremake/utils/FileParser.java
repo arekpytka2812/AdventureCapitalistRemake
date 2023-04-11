@@ -26,7 +26,7 @@ public class FileParser {
         //then change scanning method
 
         // reading investments
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 1; i++){
 
             String investment = fileScanner.nextLine();
 
@@ -73,7 +73,7 @@ public class FileParser {
                     + investment.getItemsCount() + ";"
                     + investment.getWaitTime() + ";"
                     + investment.getMultiplier() + ";"
-                    + investment.getMONEY_PER_ITEM() + ";"
+                    + investment.getMoneyPerItem() + ";"
                     + investment.isBought() + ";"
                     + investment.isHasManager() + "\n"
                     );
