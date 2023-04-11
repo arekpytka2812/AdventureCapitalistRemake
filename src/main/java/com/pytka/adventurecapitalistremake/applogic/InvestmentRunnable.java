@@ -7,13 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class InvestmentThread implements Runnable{
+public class InvestmentRunnable implements Runnable{
 
     private final Investment investment;
-
     private final Queue<Task> taskQueue;
 
-    public InvestmentThread(Investment investment){
+    public InvestmentRunnable(Investment investment){
         this.investment = investment;
         this.taskQueue = new LinkedList<>();
     }
@@ -29,7 +28,6 @@ public class InvestmentThread implements Runnable{
     public void run(){
 
         while(true){
-
             synchronized (taskQueue){
 
                 if(taskQueue.isEmpty()){

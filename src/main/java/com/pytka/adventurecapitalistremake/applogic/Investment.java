@@ -14,14 +14,13 @@ public class Investment {
     private double moneyPerRound;
 
     private double multiplier;
-    private final double MONEY_PER_ITEM;
+    private double moneyPerItem;
 
-    private boolean isRunning;
     private boolean isBought;
     private boolean hasManager;
 
     private void calculateMoney(){
-        this.moneyPerRound = this.MONEY_PER_ITEM * this.itemsCount * this.multiplier;
+        this.moneyPerRound = this.moneyPerItem * this.itemsCount * this.multiplier;
     }
 
     public Investment(String NAME, long itemsCount, int waitTime, double multiplier, double moneyPerItem, boolean isBought, boolean hasManager) {
@@ -29,10 +28,8 @@ public class Investment {
         this.itemsCount = itemsCount;
         this.waitTime = waitTime;
         this.multiplier = multiplier;
-        this.MONEY_PER_ITEM = moneyPerItem;
+        this.moneyPerItem = moneyPerItem;
         this.hasManager = hasManager;
-
-        this.isRunning = this.hasManager;
 
         this.isBought = isBought;
 
@@ -63,8 +60,8 @@ public class Investment {
         }
     }
 
-    public void setIsRunning(boolean isRunning){
-        this.isRunning = isRunning;
+    public void increaseMoneyPerItem(double moneyToAdd){
+        this.moneyPerItem += moneyToAdd;
     }
 
     public boolean hasManager(){
@@ -80,7 +77,7 @@ public class Investment {
                 ", waitTime=" + waitTime +
                 ", moneyPerRound=" + moneyPerRound +
                 ", multiplier=" + multiplier +
-                ", MONEY_PER_ITEM=" + MONEY_PER_ITEM +
+                ", MONEY_PER_ITEM=" + moneyPerItem +
                 ", isBought=" + isBought +
                 ", hasManager=" + hasManager +
                 '}';

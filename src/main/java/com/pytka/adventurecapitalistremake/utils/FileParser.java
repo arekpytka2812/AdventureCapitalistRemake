@@ -73,7 +73,7 @@ public class FileParser {
                     + investment.getItemsCount() + ";"
                     + investment.getWaitTime() + ";"
                     + investment.getMultiplier() + ";"
-                    + investment.getMONEY_PER_ITEM() + ";"
+                    + investment.getMoneyPerItem() + ";"
                     + investment.isBought() + ";"
                     + investment.isHasManager() + "\n"
                     );
