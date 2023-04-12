@@ -24,13 +24,12 @@ public class CountingTaskService extends Service<Void> {
 
                 while(waitedAlready < waitTime){
 
-                    waitedAlready += 100;
+                    waitedAlready += 10;
 
                     updateProgress((double) waitedAlready/waitTime, 1.0);
-                    System.out.println(waitedAlready + "/" + waitTime);
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     }
                     catch (InterruptedException e) {
                         if(isCancelled()){
@@ -39,15 +38,14 @@ public class CountingTaskService extends Service<Void> {
                     }
 
                 }
+
+                updateProgress(0.0,1.0);
+                succeeded();
+
                 return null;
             }
         };
         return task;
     }
 
-    @ForDebugPurposes
-    @Override
-    protected void succeeded(){
-        System.out.println(investment.getNAME() + " done");
-    }
 }

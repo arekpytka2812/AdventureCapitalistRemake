@@ -45,7 +45,6 @@ public class Game {
         for(var investment : gameInfo.getInvestments()){
 
             progressTasks.put(investment.getNAME(), new CountingTaskService(investment));
-            progressBarsMap.put(investment.getNAME(), new ProgressBar());
 
             investmentsRunnable.put(investment.getNAME(), new InvestmentRunnable(investment));
         }
@@ -54,7 +53,8 @@ public class Game {
 
         for(var key : mapKeySet){
 
-            progressBarsMap.get(key).progressProperty().bind(progressTasks.get(key).progressProperty());
+           // progressBarsMap.get(key).progressProperty()
+          //          .bind(progressTasks.get(key).progressProperty());
 
             mainThreads.add(new Thread(investmentsRunnable.get(key)));
 
@@ -63,19 +63,19 @@ public class Game {
         }
     }
 
-    public static void addPlayerMoney(double money){
+    public void addPlayerMoney(double money){
         gameInfo.setPlayerMoney(gameInfo.getPlayerMoney() + money);
     }
 
-    public static void addTask(String investmentName, Task task){
+    public void addTask(String investmentName, Task task){
         investmentsRunnable.get(investmentName).addTask(task);
     }
 
-    public static double getMoney(){
+    public double getMoney(){
         return gameInfo.getPlayerMoney();
     }
 
-    public static Investment getInvestment(String investmentName){
+    public Investment getInvestment(String investmentName){
         var investments = gameInfo.getInvestments();
 
         for(var investment : investments){
@@ -87,16 +87,23 @@ public class Game {
         return null;
     }
 
-    public static Map<String, ProgressBar> getProgressBarsMap(){
-        return progressBarsMap;
-    }
-
-    public static void startInvestment(String investmentName){
+    public void startInvestment(String investmentName){
         progressTasks.get(investmentName).restart();
+
     }
 
-    public static ProgressBar getProgressBar(String barsName){
+    public ProgressBar getProgressBar(String barsName){
         return progressBarsMap.get(barsName);
     }
 
+    public CountingTaskService getService(String serviceName){
+        return progressTasks.get(serviceName);
+    }
+
+    public void putBarAndBindProgress(String investmentName, ProgressBar bar){
+        progressBarsMap.put(investmentName, bar);
+
+        bar.progressProperty()
+                .bind(progressTasks.get(investmentName).progressProperty());
+    }
 }
