@@ -29,9 +29,8 @@ public class Investment {
         this.waitTime = waitTime;
         this.multiplier = multiplier;
         this.moneyPerItem = moneyPerItem;
-        this.hasManager = hasManager;
-
         this.isBought = isBought;
+        this.hasManager = hasManager;
 
         calculateMoney();
     }

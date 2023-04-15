@@ -51,7 +51,5 @@ public class MainPageCenterController {
             e.printStackTrace();
         }
     }
-
-
 }
 

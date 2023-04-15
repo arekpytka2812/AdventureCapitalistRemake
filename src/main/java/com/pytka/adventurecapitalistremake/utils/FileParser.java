@@ -17,16 +17,16 @@ public class FileParser {
     public static GameInfo readGameInfo() throws FileNotFoundException {
 
         gameInfoFile = new File("bin/gameInfo.txt");
-
         gameInfo = new GameInfo();
-
         Scanner fileScanner = new Scanner(gameInfoFile);
 
+        var investmentsAmountFromFile = fileScanner.nextLine();
+        var investmentsAmount = Integer.parseInt(investmentsAmountFromFile);
         //TODO: change investments file type to json
         //then change scanning method
 
         // reading investments
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < investmentsAmount; i++){
 
             String investment = fileScanner.nextLine();
 
