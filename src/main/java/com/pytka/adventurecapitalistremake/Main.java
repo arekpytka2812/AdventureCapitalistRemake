@@ -1,6 +1,6 @@
-package com.pytka.adventurecapitalistremake.applogic;
+package com.pytka.adventurecapitalistremake;
 
-import com.pytka.adventurecapitalistremake.utils.FileParser;
+import com.pytka.adventurecapitalistremake.applogic.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

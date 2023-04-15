@@ -5,10 +5,10 @@ import com.pytka.adventurecapitalistremake.applogic.Investment;
 import com.pytka.adventurecapitalistremake.utils.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
-import javafx.stage.Stage;
+
+//TODO: extract this into own entity
 
 public class MainPageCenterController {
 
@@ -19,36 +19,37 @@ public class MainPageCenterController {
     Button buyButton;
 
     @FXML
-    ProgressBar investmentProgress = null;
+    ProgressBar investmentProgress;
 
     private String investmentName;
 
     @FXML
     private void initialize(){
+
+        //TODO: pass the investment name to controller
         investmentName = "Modes";
 
-        var investment = Game.getInvestment(investmentName);
+        var investment = Game.getInstance().getInvestment(investmentName);
 
         if(investment == null){
             return;
         }
 
-        investmentProgress = Game.getProgressBar(investmentName);
+        Game.getInstance().putBarAndBindProgress(investmentName, investmentProgress);
+
     }
 
     public void runButtonPressed(ActionEvent event){
-        Game.startInvestment(investmentName);
+        Game.getInstance().startInvestment(investmentName);
     }
 
     public void buyButtonPressed(ActionEvent event){
         try{
-            Game.addTask(investmentName, new Task(Investment.class.getMethod("addItems", int.class), new Object[]{10}));
+            Game.getInstance().addTask(investmentName, new Task(Investment.class.getMethod("addItems", int.class), new Object[]{10}));
         }
         catch (NoSuchMethodException e){
             e.printStackTrace();
         }
     }
-
-
 }
 

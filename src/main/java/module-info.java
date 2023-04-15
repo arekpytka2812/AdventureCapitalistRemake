@@ -17,4 +17,6 @@ module com.pytka.adventurecapitalistremake {
 
     exports com.pytka.adventurecapitalistremake.utils;
     opens com.pytka.adventurecapitalistremake.utils to javafx.fxml;
+    exports com.pytka.adventurecapitalistremake;
+    opens com.pytka.adventurecapitalistremake to javafx.fxml;
 }

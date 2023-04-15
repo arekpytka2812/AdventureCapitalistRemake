@@ -1,14 +1,15 @@
 package com.pytka.adventurecapitalistremake.utils;
 
+import com.pytka.adventurecapitalistremake.applogic.Game;
 import com.pytka.adventurecapitalistremake.applogic.Investment;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class CountingTaskService extends Service<Void> {
+public class SimpleProgressService extends Service<Void>{
 
     private final Investment investment;
 
-    public CountingTaskService(Investment investment){
+    public SimpleProgressService(Investment investment){
         this.investment = investment;
     }
 
@@ -17,37 +18,36 @@ public class CountingTaskService extends Service<Void> {
 
         Task<Void> task = new Task<>(){
             @Override
-            protected Void call(){
+            protected Void call() {
 
                 var waitTime = investment.getWaitTime() * 1000;
                 var waitedAlready = 0;
 
-                while(waitedAlready < waitTime){
+                while (waitedAlready < waitTime) {
 
-                    waitedAlready += 100;
+                    waitedAlready += 10;
 
-                    updateProgress((double) waitedAlready/waitTime, 1.0);
-                    System.out.println(waitedAlready + "/" + waitTime);
+                    updateProgress((double) waitedAlready / waitTime, 1.0);
 
                     try {
-                        Thread.sleep(100);
-                    }
-                    catch (InterruptedException e) {
-                        if(isCancelled()){
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        if (isCancelled()) {
                             updateMessage("Cancelled!");
                         }
                     }
 
                 }
+
+                updateProgress(0.0, 1.0);
+                succeeded();
+
+                Game.getInstance().addPlayerMoney(investment.getMoneyPerRound());
+
                 return null;
             }
         };
         return task;
     }
 
-    @ForDebugPurposes
-    @Override
-    protected void succeeded(){
-        System.out.println(investment.getNAME() + " done");
-    }
 }
